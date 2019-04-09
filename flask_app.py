@@ -10,15 +10,11 @@ def main(): return render_template('login.html')
 def createanaccount():
 	if request.method=="GET":
 		return render_template('createaccount.html')
-	if request.method=="POST":
-		email = request.form['email']
-		password = request.form['password']
-		sq = request.form['SQ']
-		sa = request.form['SA']
+	elif request.method=="POST":
 		conn = sqlite3.connect("userinfo.db")
 		c = conn.cursor()
-		sql = "INSERT into users (user_id, email, password, securityquestion, securityquestionanswer) 
-		sql += "values (79817, " + str(email) + ', ' + str(password) + ', ' + str(sq) + ', ' + str(sa) + ")"
+		sql = "INSERT into users (user_id, email, password, securityquestion, securityquestionanswer)"
+		sql += "values (79817, " + str(request.form['email']) + ", " + str(request.form['password']) + ", " + str(request.form['SQ']) + ", " + str(request.form['SA']) + ")"
 		c.execute(sql)
 		conn.close()
 		return render_template('accountcreated.html')
