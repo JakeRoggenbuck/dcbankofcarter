@@ -11,7 +11,18 @@ def createanaccount():
 	if request.method=="GET":
 		return render_template('createaccount.html')
 	if request.method=="POST":
+		email = request.form['email']
+		password = request.form['password']
+		sq = request.form['SQ']
+		sa = request.form['SA']
+		conn = sqlite3.connect("userinfo.db")
+		c = conn.cursor()
+		sql = "INSERT into users (user_id, email, password, securityquestion, securityquestionanswer) 
+		sql += "values (79817, " + str(email) + ', ' + str(password) + ', ' + str(sq) + ', ' + str(sa) + ")"
+		c.execute(sql)
+		conn.close()
 		return render_template('accountcreated.html')
+		
 @app.route('/transaction',methods=['POST'])
 def transaction():
 	sender = request.form['sender']
