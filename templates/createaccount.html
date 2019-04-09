@@ -1,46 +1,38 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <link data-require="bootstrap@4.1.3" data-semver="4.1.3" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
     <script data-require="bootstrap@4.1.3" data-semver="4.1.3" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
   </head>
-
   <body>
   <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:18px;font-style:normal' align = 'right'>DCBoC</h2>
   <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:26px;font-style:normal' align = 'Left'>Create an Account</h2>
-  <form>
+  <form action='/createanaccount' method='post'>
   <div class="form-group">
     <label for="EmailAddress">Email address</label>
     <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="Enter email">
     <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
+
     <label for="FirstName">First Name</label>
     <input type="text" class="form-control" id="firstname" aria-describedby="firstname" placeholder="Enter Name">
-  </div>
-  <div class="form-group">
+
     <label for="Last Name">Last Name</label>
     <input type="text" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Enter Name">
-  </div>
-  <div class="form-group">
+ 
     <label for="SQ">Security Question</label>
     <input type="text" class="form-control" id="SQ" aria-describedby="SQ" placeholder="Security Question">
-  </div>
-  <div class="form-group">
+
     <label for="SA">Security Question Answer</label>
     <input type="text" class="form-control" id="SA" aria-describedby="SA" placeholder="Security Question Answer">
-  </div>
-  <div class="form-group">
+ 
     <label for="Password">Password</label>
     <input type="password" class="form-control" id="password" placeholder="Password">
-  </div>
-   <div class="form-group">
+
     <label for="CPassword">Confirm Password</label>
     <input type="password" class="form-control" id="CPassword" placeholder="Confirm Password">
-  </div>
+	
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
   </body>
