@@ -84,14 +84,23 @@ def transaction():
 	amount = request.form['amount']
 	conn = sqlite3.connect("userinfo.db")
 	c = conn.cursor()
-	s = "SELECT balance from users where user_id like sender"
+	s = "SELECT balance from users where user_id = " + sender
 	c.execute(s)
 	a = c.fetchall()
 	if len(a) != 1:
 		#TODO: Update transaction status
 		return "ERROR: not exactly one user with id " + sender
-	a = a[0]
-	if a < amount:
+	a = float(a[0])
+	if a < float(amount):
 		#TODO: Update transaction status
 		return "TRANSACTION FAILED: insufficient funds"
-	return sender
+	#CONSIDER: Some taxation system that just burns money, counteract inflation.
+	s = "UPDATE users SET balance = ? WHERE user_id = " + sender
+	c.execute(s,a-amount)
+	s = "SELECT balance from users where user_id = " + reciever
+	c.execute(s)
+	b = c.fetchall()[0]
+	s = "UPDATE users SET balance = ? WHERE user_id = " + reciever
+	c.execute(s,b+amount)
+	# TODO: Update transaction status
+	return "TRANSACTION SUCCEEDED"
