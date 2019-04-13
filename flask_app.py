@@ -43,4 +43,15 @@ def createanaccount():
 @app.route('/transaction',methods=['POST'])
 def transaction():
 	sender = request.form['sender']
+	reciever = request.form['reciever']
+	status = request.form['status']
+	timestamp = request.form['timestamp']
+	amount = request.form['amount']
+	conn = sqlite3.connect("userinfo.db")
+	c = conn.cursor()
+	s = "SELECT balance from users where user_id like sender"
+	c.execute(s)
+	a = c.fetchall()
+	if len(a) != 1:
+		return "ERROR: not exactly one user with id " + sender
 	return sender
