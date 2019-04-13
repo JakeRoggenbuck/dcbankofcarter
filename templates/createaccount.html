@@ -9,6 +9,17 @@
   <body>
   <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:18px;font-style:normal' align = 'right'>DCBoC</h2>
   <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:26px;font-style:normal' align = 'Left'>Create an Account</h2>
+  <!-- ERROR MESSAGES -->
+  {% if error == "email": %}
+  <p style='font-family:Helvetica,Arial,sans-serif;font-size:12px;font-style:normal;color:red'>Please enter a valid e-mail.</p>
+  {% elif error == "matchingpassword": %}
+  <p style='font-family:Helvetica,Arial,sans-serif;font-size:12px;font-style:normal;color:red'>Password does not match confirm password.</p>
+  {% elif error == "password": %}
+  <p style='font-family:Helvetica,Arial,sans-serif;font-size:12px;font-style:normal;color:red'>Password must not contain the following characters: ', ", or \</p>
+  {% elif error == "names": %}
+  <p style='font-family:Helvetica,Arial,sans-serif;font-size:12px;font-style:normal;color:red'>First and Last name must only contain letters and hyphens.</p>
+  {% endif %}
+  <!-- FORM -->
   <form action='/createanaccount' method='post'>
   <div class="form-group">
     <label for="EmailAddress">Email address</label>
