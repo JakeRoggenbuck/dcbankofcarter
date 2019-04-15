@@ -69,7 +69,7 @@ def createanaccount():
 				cond = True
 		if cond:
 			return render_template('createaccount.html',error='names')
-		sql = "INSERT into users (user_id, email, password, securityquestion, securityquestionanswer, Firstname, Lastname) values ('"+ str(nid) + "', '" + str(email) + "', '" + str(password) + "', '" + str(request.form['SQ']) + "', '" + str(request.form['SA']) + "', '" + str(fname) + "', '" + str(lname) + "')"		
+		sql = "INSERT into users (user_id, email, password, Firstname, Lastname) values ('"+ str(nid) + "', '" + str(email) + "', '" + str(password) + "', '" + str(fname) + "', '" + str(lname) + "')"		
 		print(sql)
 		c.execute(sql)
 		conn.commit()
