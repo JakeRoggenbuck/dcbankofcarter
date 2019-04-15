@@ -22,15 +22,15 @@ def main():
 			return render_template("loginfailed.html")
 		
 def create_user_id():
-	conn = sqlite3.connect("userinfo.db")
-	c = conn.cursor()
-	s = "SELECT user_id from users where user_id like t_id"
+	aconn = sqlite3.connect("userinfo.db")
+	ac = aconn.cursor()
 	while True:
 		opts = [i for i in 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890']
 		# 8 character long random hash
-		t_id = [random.choice(opts) for i in range(8)]
-		c.execute(s)
-		if len(c.fetchall()) == 0:
+		t_id = "".join([random.choice(opts) for i in range(8)])
+		s = "SELECT user_id from users where user_id = '" + t_id + "'"
+		ac.execute(s)
+		if len(ac.fetchall()) == 0:
 			return t_id
 
 # Criteria for valid account:
@@ -45,9 +45,9 @@ def createanaccount():
 	if request.method=="GET":
 		return render_template('createaccount.html',error='')
 	elif request.method=="POST":
+		nid = create_user_id()
 		conn = sqlite3.connect("userinfo.db")
 		c = conn.cursor()
-		nid = create_user_id()
 		email = request.form['email']
 		parts = email.split('@')
 		if len(parts) != 2:
@@ -69,7 +69,8 @@ def createanaccount():
 				cond = True
 		if cond:
 			return render_template('createaccount.html',error='names')
-		sql = "INSERT into users (user_id, email, password, securityquestion, securityquestionanswer, Firstname, Lastname) values ("+ str(nid) + ", '" + str(email) + "', '" + str(password) + "', '" + str(request.form['SQ']) + "', '" + str(request.form['SA']) + "', '" + str(fname) + "', '" + str(lname) + "')"		
+		sql = "INSERT into users (user_id, email, password, securityquestion, securityquestionanswer, Firstname, Lastname) values ('"+ str(nid) + "', '" + str(email) + "', '" + str(password) + "', '" + str(request.form['SQ']) + "', '" + str(request.form['SA']) + "', '" + str(fname) + "', '" + str(lname) + "')"		
+		print(sql)
 		c.execute(sql)
 		conn.commit()
 		conn.close()
