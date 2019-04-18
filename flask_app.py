@@ -78,30 +78,33 @@ def createanaccount():
 		
 @app.route('/transaction',methods=['POST'])
 def transaction():
-	sender = request.form['sender']
-	reciever = request.form['reciever']
-	status = request.form['status']
-	timestamp = request.form['timestamp']
-	amount = request.form['amount']
-	conn = sqlite3.connect("userinfo.db")
-	c = conn.cursor()
-	s = "SELECT balance from users where user_id = " + sender
-	c.execute(s)
-	a = c.fetchall()
-	if len(a) != 1:
-		#TODO: Update transaction status
-		return "ERROR: not exactly one user with id " + sender
-	a = float(a[0])
-	if a < float(amount):
-		#TODO: Update transaction status
-		return "TRANSACTION FAILED: insufficient funds"
-	#CONSIDER: Some taxation system that just burns money, counteract inflation.
-	s = "UPDATE users SET balance = ? WHERE user_id = " + sender
-	c.execute(s,a-amount)
-	s = "SELECT balance from users where user_id = " + reciever
-	c.execute(s)
-	b = c.fetchall()[0]
-	s = "UPDATE users SET balance = ? WHERE user_id = " + reciever
-	c.execute(s,b+amount)
-	# TODO: Update transaction status
-	return "TRANSACTION SUCCEEDED"
+	try:
+		sender = request.form['sender']
+		reciever = request.form['reciever']
+		status = request.form['status']
+		timestamp = request.form['timestamp']
+		amount = request.form['amount']
+	except:
+		return "bad"
+		conn = sqlite3.connect("userinfo.db")
+		c = conn.cursor()
+		s = "SELECT balance from users where user_id = " + sender
+		c.execute(s)
+		a = c.fetchall()
+		if len(a) != 1:
+			#TODO: Update transaction status
+			return "ERROR: not exactly one user with id " + sender
+		a = float(a[0][0])
+		if a < float(amount):
+			#TODO: Update transaction status
+			return "TRANSACTION FAILED: insufficient funds"
+		#CONSIDER: Some taxation system that just burns money, counteract inflation.
+		s = "UPDATE users SET balance = ? WHERE user_id = " + sender
+		c.execute(s,a-amount)
+		s = "SELECT balance from users where user_id = " + reciever
+		c.execute(s)
+		b = c.fetchall()[0]
+		s = "UPDATE users SET balance = ? WHERE user_id = " + reciever
+		c.execute(s,b+amount)
+		# TODO: Update transaction status
+		return "TRANSACTION SUCCEEDED"
