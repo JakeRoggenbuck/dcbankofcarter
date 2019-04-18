@@ -1,10 +1,16 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import sqlite3
 import random
 
 app = Flask(__name__)
-
-@app.route('/',methods=["GET","POST"])
+app.secret_key = "oABGPiawyher0gqv8b3y4rgbq3087g4q"
+@app.route('/checklogin/<email>')
+def checklogin(email):
+	if email in session: 
+		email = session['email']
+		return "Logged in as " + email + "<br><p><a href = '/logout'>click here to log out</a></p>"
+	return "You are not logged in <br><a href = '/login'></b>log in</b></a>"
+@app.route('/login',methods=["GET","POST"])
 def main(): 
 	if request.method=="GET": return render_template("login.html")
 	elif request.method == "POST": 
@@ -17,7 +23,9 @@ def main():
 			if request.form['email'] == x[0] and request.form['password'] == x[1]:
 				login = True
 		if login == True:
-			return render_template("logincomplete.html")
+			session['email'] = request.form['email']
+			email = request.form['email']
+			return render_template("logincomplete.html",email=email)
 		elif login == False: 
 			return render_template("loginfailed.html")
 		
@@ -75,7 +83,15 @@ def createanaccount():
 		conn.commit()
 		conn.close()
 		return render_template('accountcreated.html')
-		
+@app.route('/youraccount/<email>')
+def youraccount(email):
+	return render_template("viewcarteraccountinfo.html",email=email)
+
+@app.route('/logout')
+def logout():
+	session.pop('email',None)
+	return "You have logged out"
+
 @app.route('/transaction',methods=['POST'])
 def transaction():
 	try:
