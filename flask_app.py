@@ -10,8 +10,16 @@ def checklogin(email):
 		email = session['email']
 		return "Logged in as " + email + "<br><p><a href = '/logout'>click here to log out</a></p>"
 	return "You are not logged in <br><a href = '/login'></b>log in</b></a>"
+@app.route('/')
+def main():
+	conn = sqlite3.connect("userinfo.db")
+	c = conn.cursor()
+	s = "SELECT * from news"
+	c.execute(s)
+	s = c.fetchall()
+	return render_template("news.html",s=s)
 @app.route('/login',methods=["GET","POST"])
-def main(): 
+def login(): 
 	if request.method=="GET": return render_template("login.html")
 	elif request.method == "POST": 
 		conn = sqlite3.connect("userinfo.db")
@@ -83,9 +91,9 @@ def createanaccount():
 		conn.commit()
 		conn.close()
 		return render_template('accountcreated.html')
-@app.route('/youraccount/<email>')
-def youraccount(email):
-	return render_template("viewcarteraccountinfo.html",email=email)
+@app.route('/youraccount')
+def youraccount():
+	return render_template("viewcarteraccountinfo.html")
 
 @app.route('/logout')
 def logout():
