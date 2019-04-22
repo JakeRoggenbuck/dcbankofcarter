@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "cartercoin-shared",
+  "private_key_id": "0308424490f0b59f300fcb6a4e05deb597c965af",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDdUutM3oisF6ZB\n0cGrpd9fJ10xgPz53kbVPy17bLlIv91j9QxLscyfNw0QDP845UrPHKOBk97zM60j\nnJdPPx2hoVDrgMt25sVzEGfPHdTPsdXQOssJTkqLzs/iUDbc8Et1IIZMMh/TSBDk\nVmpr4v2dS+wE9xLMJMG/NLnjbDB9bmpGigWtZkz76VARWplLeVS/vhE6e2Xibne/\n23iAUUvVhBBVs/ft4ovzmzF4n5byxtdco+CVQpYmWOMSevB2AcyxcjYLeqZrKnY6\nXQ1pFXhlyP3UvV5iGhoUO5ZbSfbSfT92J2snqYBfgqmnkj050ccLS3sgKjhiV5F9\n/R6p47W3AgMBAAECggEACpkxlWEZWwxYNNIDm+GkkbJD3zQAaULAp5jlPQIsLpSp\ngw41WYaZIuKy/cVxj1ruOylxlv9AGkCrljH7I5taeDv5Bl4I4EJqys4f+ntrjnVD\nT5ERL0/ld/keXAW1VYfYRTKahm7mtpUT4gCqtfc3vTQ+iCUAwcUyK02DZ/rtU4RC\n8LEiFteAmmKS7eVoV+uC8gvg4HNFbcLImdagte4o0woARUTNwkIWPc6KCT+OhTln\nua4lZvHVFuDBEbSOrTsV0eqpkKYgxGd6OnRayX9zg9L0PqOrSbBCN9ftKEKtEEzm\nWhzorMvMC5yiZhJhpTObE16XQjK8u4dsVcFb8BqYWQKBgQDyu/jUzYwPP2CpfjYX\nkFjMFxEm6xmzBgt8vCQcqwEf5IwRrti3AVOfk8bTxXJc44Wop/K0rLk2Atkl2eq0\n686Q1mzp5OWsEXgNpF73ncFDP9GoKT+V9iBXFVFEBkdgue7H/mpPoFJSFOApk/Zt\nUHNWP8Q/yTfaZt5jSDAtzycV4wKBgQDpa2aS5hXVfyZpkzJavXM7SH1BnqFcov8+\nLdfVfjtrAeVDJnTFEMnw0KlWBbTReZp0FuNU4JPsOKqDrNxxqqF83kV7hMSp4IPx\nR2Qjnn/SBBNV3b8nuRkewYHM+U9Dw7mCuT80dZnWiogf33KdPCvQ8XWPnuTAEIGX\n8KcI703JHQKBgGEAeWohUk1tmGVjiJ5WEwZMWZBh930xdzm7vfqu494o6UjPxM8t\neouU9KoAh7lTO0CxDS7ir4lEDh8wPLlcWspKxm+aB6aBvKZG/6SYqHkFcfVvtndp\nSndCj51NnQysgR3vL/DuMreWnBZBiQMaWV0oUnbjJKzk2w519Lr5w7bdAoGAMMQb\nff1L+nrCD7SNBKAn/u66HIeDttLm+JqjSRtCVqzitRDHvJQxXHp7plky2cDKIA7Y\nF9eDkAqWtUPcGnNHocreQVwPql4ZssLzjO2ETuBDGeFmGmp1cROEhspfYQz3KPSC\n2/bl2QjAP8hzLZ5wmQqZQRQ1Pls0eAXzH86/NZECgYAytmTiSfX7ZbpinzIw7G6x\n6yDjy65AzOwwzpc8C68EH+eMZfhVVAcG2RVZIHHs5kns7EhngLy9pAy78+30izG9\nSqSqUC1/3usNJsJG1VRi//0A4eBbbEwYLuchn/UgTx2P6sa4lJ72g/vK8Jk3+EdZ\n69JVbgqYtcZ7XcAQ57GyVg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "dcbocworker@cartercoin-shared.iam.gserviceaccount.com",
+  "client_id": "102394258918664678510",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dcbocworker%40cartercoin-shared.iam.gserviceaccount.com"
+}

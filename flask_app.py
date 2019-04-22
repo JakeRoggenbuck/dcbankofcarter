@@ -1,15 +1,14 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request
 import sqlite3
 import random
+import gspread
+#Service client credential from oauth2client
+from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
-app.secret_key = "oABGPiawyher0gqv8b3y4rgbq3087g4q"
-@app.route('/checklogin/<email>')
-def checklogin(email):
-	if email in session: 
-		email = session['email']
-		return "Logged in as " + email + "<br><p><a href = '/logout'>click here to log out</a></p>"
-	return "You are not logged in <br><a href = '/login'></b>log in</b></a>"
+
+scope = ['https://spreadsheets.google.com/feeds']
+
 @app.route('/')
 def main():
 	conn = sqlite3.connect("userinfo.db")
@@ -19,9 +18,9 @@ def main():
 	s = c.fetchall()
 	return render_template("news.html",s=s)
 @app.route('/login',methods=["GET","POST"])
-def login(): 
+def login():
 	if request.method=="GET": return render_template("login.html")
-	elif request.method == "POST": 
+	elif request.method == "POST":
 		conn = sqlite3.connect("userinfo.db")
 		c = conn.cursor()
 		s = "SELECT email, password from users"
@@ -30,13 +29,13 @@ def login():
 		for x in c.fetchall():
 			if request.form['email'] == x[0] and request.form['password'] == x[1]:
 				login = True
+		c.close()
+		conn.close()
 		if login == True:
-			session['email'] = request.form['email']
-			email = request.form['email']
-			return render_template("logincomplete.html",email=email)
-		elif login == False: 
+			return render_template("logincomplete.html")
+		elif login == False:
 			return render_template("loginfailed.html")
-		
+
 def create_user_id():
 	aconn = sqlite3.connect("userinfo.db")
 	ac = aconn.cursor()
@@ -85,20 +84,24 @@ def createanaccount():
 				cond = True
 		if cond:
 			return render_template('createaccount.html',error='names')
-		sql = "INSERT into users (user_id, email, password, Firstname, Lastname) values ('"+ str(nid) + "', '" + str(email) + "', '" + str(password) + "', '" + str(fname) + "', '" + str(lname) + "')"		
+		sql = "INSERT into users (user_id, email, password, Firstname, Lastname) values ('"+ str(nid) + "', '" + str(email) + "', '" + str(password) + "', '" + str(fname) + "', '" + str(lname) + "')"
 		print(sql)
 		c.execute(sql)
 		conn.commit()
 		conn.close()
+		c.close()
 		return render_template('accountcreated.html')
-@app.route('/youraccount')
-def youraccount():
-	return render_template("viewcarteraccountinfo.html")
 
-@app.route('/logout')
-def logout():
-	session.pop('email',None)
-	return "You have logged out"
+@app.route('/testdata')
+def testdata():
+    conn = sqlite3.connect("userinfo.db")
+    c = conn.cursor()
+    c.execute('SELECT * FROM users')
+    data = c.fetchall()
+    c.close()
+    conn.close()
+    a = "\n".join([" ".join([str(j) for j in i]) for i in data])
+    return a
 
 @app.route('/transaction',methods=['POST'])
 def transaction():
@@ -107,6 +110,10 @@ def transaction():
 	status = request.form['status']
 	timestamp = request.form['timestamp']
 	amount = request.form['amount']
+	row = request.form['row_id']
+	creds = ServiceAccountCredentials.from_json_keyfile_name('cartercoin-shared.json',scope)
+	client = gspread.authorize(creds)
+	sheet = client.open('StartupName').sheet1
 	conn = sqlite3.connect("userinfo.db")
 	c = conn.cursor()
 	s = "SELECT balance from users where user_id = " + sender
@@ -114,18 +121,25 @@ def transaction():
 	a = c.fetchall()
 	if len(a) != 1:
 		#TODO: Update transaction status
+		sheet.update_cell(row,5,'DENIED')
 		return "ERROR: not exactly one user with id " + sender
-	a = float(a[0])
+	a = float(a[0][0])
 	if a < float(amount):
-		#TODO: Update transaction status
-		return "TRANSACTION FAILED: insufficient funds"
+	    #TODO: Update transaction status
+	    sheet.update_cell(row,5,'DENIED')
+	    return "TRANSACTION FAILED: insufficient funds"
 	#CONSIDER: Some taxation system that just burns money, counteract inflation.
 	s = "UPDATE users SET balance = ? WHERE user_id = " + sender
-	c.execute(s,a-amount)
-	s = "SELECT balance from users where user_id = " + reciever
-	c.execute(s)
-	b = c.fetchall()[0]
-	s = "UPDATE users SET balance = ? WHERE user_id = " + reciever
-	c.execute(s,b+amount)
+	c.execute(s,(str(a-float(amount)),))
+	s = "SELECT balance from users where user_id = ?"
+	c.execute(s,(reciever,))
+	b = c.fetchall()[0][0]
+	s = "UPDATE users SET balance = ? WHERE user_id = ?"
+	print(s)
+	c.execute(s,(str(b+float(amount)),reciever))
+	conn.commit()
+	c.close()
+	conn.close()
 	# TODO: Update transaction status
+	sheet.update_cell(row,5,'APPROVED')
 	return "TRANSACTION SUCCEEDED"
