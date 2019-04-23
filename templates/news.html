@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link data-require="bootstrap@4.1.3" data-semver="4.1.3" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <script data-require="bootstrap@4.1.3" data-semver="4.1.3" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+  
+  <body>
+  <h2 align ='right'> DCBoC</h2>
+	{% for x in s %}
+   <div class = 'container'>
+      <div class='row'>
+        <div class='col-sm-8'>
+			<h3 align = 'right' >{{x[2]}}</h3>
+		</div></div>
+	  <div class = 'row'>
+		<div class='col-sm-4'>
+			<figure class="figure">
+			<img src={{x[4]}} class="figure-img img-fluid rounded"/>
+			<figcaption class="figure-caption text-right">{{x[1]}}-{{x[6]}}-{{x[7]}} {{x[5]}}</figcaption>
+			</figure>
+		</div>
+		<div class='col-sm-8'>
+			<h5>{{x[3]}}</h5>
+		</div></div>
+		</div><br/><br/><br/>
+	{% endfor %}
+  </body>
+</html>

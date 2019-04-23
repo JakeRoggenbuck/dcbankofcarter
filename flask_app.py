@@ -4,8 +4,16 @@ import random
 
 app = Flask(__name__)
 
-@app.route('/',methods=["GET","POST"])
+@app.route('/')
 def main():
+	conn = sqlite3.connect("userinfo.db")
+	c = conn.cursor()
+	s = "SELECT * from news"
+	c.execute(s)
+	s = c.fetchall()
+	return render_template("news.html",s=s)
+@app.route('/login',methods=["GET","POST"])
+def login():
 	if request.method=="GET": return render_template("login.html")
 	elif request.method == "POST":
 		conn = sqlite3.connect("userinfo.db")
