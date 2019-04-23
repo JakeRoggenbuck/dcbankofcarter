@@ -128,5 +128,4 @@ def transaction():
 	c.close()
 	conn.close()
 	# TODO: Update transaction status
-	print(row)
 	return "APPROVED"
