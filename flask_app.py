@@ -1,13 +1,8 @@
 from flask import Flask, render_template, request
 import sqlite3
 import random
-import gspread
-#Service client credential from oauth2client
-from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
-
-scope = ['https://spreadsheets.google.com/feeds']
 
 @app.route('/',methods=["GET","POST"])
 def main():
@@ -98,14 +93,8 @@ def testdata():
 @app.route('/transaction',methods=['POST'])
 def transaction():
 	sender = request.form['sender']
-	reciever = request.form['reciever']
-	status = request.form['status']
-	timestamp = request.form['timestamp']
+	reciever = request.form['receiver']
 	amount = request.form['amount']
-	row = request.form['row_id']
-	creds = ServiceAccountCredentials.from_json_keyfile_name('cartercoin-shared.json',scope)
-	client = gspread.authorize(creds)
-	sheet = client.open('StartupName').sheet1
 	conn = sqlite3.connect("userinfo.db")
 	c = conn.cursor()
 	s = "SELECT balance from users where user_id = " + sender
@@ -113,13 +102,11 @@ def transaction():
 	a = c.fetchall()
 	if len(a) != 1:
 		#TODO: Update transaction status
-		sheet.update_cell(row,5,'DENIED')
-		return "ERROR: not exactly one user with id " + sender
+		return "DENIED"
 	a = float(a[0][0])
 	if a < float(amount):
 	    #TODO: Update transaction status
-	    sheet.update_cell(row,5,'DENIED')
-	    return "TRANSACTION FAILED: insufficient funds"
+	    return "DENIED"
 	#CONSIDER: Some taxation system that just burns money, counteract inflation.
 	s = "UPDATE users SET balance = ? WHERE user_id = " + sender
 	c.execute(s,(str(a-float(amount)),))
@@ -133,5 +120,5 @@ def transaction():
 	c.close()
 	conn.close()
 	# TODO: Update transaction status
-	sheet.update_cell(row,5,'APPROVED')
-	return "TRANSACTION SUCCEEDED"
+	print(row)
+	return "APPROVED"
