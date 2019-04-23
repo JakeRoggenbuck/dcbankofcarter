@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import sqlite3
 import random
 
 app = Flask(__name__)
+app.secret_key = b'*ayfaug76t^Y5T6y6r'
 
 @app.route('/')
 def main():
@@ -19,15 +20,18 @@ def login():
 	elif request.method == "POST":
 		conn = sqlite3.connect("userinfo.db")
 		c = conn.cursor()
-		s = "SELECT email, password from users"
+		s = "SELECT email, password, user_id from users"
 		login = False
 		c.execute(s)
+		uid = ''
 		for x in c.fetchall():
 			if request.form['email'] == x[0] and request.form['password'] == x[1]:
 				login = True
+				uid = x[2]
 		c.close()
 		conn.close()
 		if login == True:
+			session['id'] = uid
 			return render_template("logincomplete.html")
 		elif login == False:
 			return render_template("loginfailed.html")
