@@ -12,6 +12,7 @@ def main():
 	c.execute(s)
 	s = c.fetchall()
 	return render_template("news.html",s=s)
+
 @app.route('/login',methods=["GET","POST"])
 def login():
 	if request.method=="GET": return render_template("login.html")
