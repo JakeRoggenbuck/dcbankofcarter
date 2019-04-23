@@ -11,6 +11,8 @@ def main():
 	s = "SELECT * from news"
 	c.execute(s)
 	s = c.fetchall()
+	c.close()
+	conn.close()
 	return render_template("news.html",s=s)
 
 @app.route('/login',methods=["GET","POST"])
@@ -84,8 +86,9 @@ def createanaccount():
 		print(sql)
 		c.execute(sql)
 		conn.commit()
-		conn.close()
 		c.close()
+		conn.close()
+		
 		return render_template('accountcreated.html')
 
 @app.route('/testdata')
@@ -98,6 +101,9 @@ def testdata():
     conn.close()
     a = "\n".join([" ".join([str(j) for j in i]) for i in data])
     return a
+@app.route('/viewaccountinfo')
+def viewaccountinfo():
+	return render_template('viewcarteraccountinfo.html')
 
 @app.route('/transaction',methods=['POST'])
 def transaction():
