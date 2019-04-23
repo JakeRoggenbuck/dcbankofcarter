@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request
 import sqlite3
 import random
-import gspread
-#Service client credential from oauth2client
-from oauth2client.service_account import ServiceAccountCredentials
+
 
 app = Flask(__name__)
 
