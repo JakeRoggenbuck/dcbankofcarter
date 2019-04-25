@@ -111,16 +111,21 @@ def viewaccountinfo():
 
 @app.route('/verifyid',methods=['POST'])
 def verifyid():
+	secure_hash = 'LOGANisHeckaGR4NNY!lma0'
 	check_id = request.form['id']
-	s = "SELECT * FROM users WHERE user_id = ?"
-	conn = sqlite3.connect("userinfo.db")
-	c = conn.cursor()
-	c.execute(s)
-	a = [i for i in c.fetchall()]
-	c.close()
-	conn.close()
-	if len(a) == 1:
-		return "VALID"
+	sent_hash = request.form['hash']
+	if sent_hash == secure_hash:
+		s = "SELECT * FROM users WHERE user_id = ?"
+		conn = sqlite3.connect("userinfo.db")
+		c = conn.cursor()
+		c.execute(s)
+		a = [i for i in c.fetchall()]
+		c.close()
+		conn.close()
+		if len(a) == 1:
+			return "VALID"
+		else:
+			return "INVALID"
 	else:
 		return "INVALID"
 
