@@ -141,9 +141,12 @@ def viewaccountinfo():
 		if session['id'] != "": 
 			lg = True
 	except:	pass
+	if lg == False:
+		return render_template("rrh.html")
 	conn = sqlite3.connect("userinfo.db")
 	c = conn.cursor()
-	c.execute('SELECT * FROM users where user_id = ' + str(session['id']))
+	id = session['id']
+	c.execute('SELECT * FROM users where user_id = ' + str(id))
 	data = c.fetchall()
 	for x in data:
 		email = x[1]
