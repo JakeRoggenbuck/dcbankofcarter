@@ -103,6 +103,19 @@ def testdata():
     a = "\n".join([" ".join([str(j) for j in i]) for i in data])
     return a
 
+@app.route('/verifyid',methods=['POST'])
+def verifyid():
+	check_id = request.form['id']
+	s = "SELECT * FROM users WHERE user_id = ?"
+	conn = sqlite3.connect("userinfo.db")
+	c = conn.cursor()
+	c.execute(s)
+	a = [i for i in c.fetchall()]
+	if len(a) == 1:
+		return "VALID"
+	else:
+		return "INVALID"
+
 @app.route('/transaction',methods=['POST'])
 def transaction():
 	sender = request.form['sender']
