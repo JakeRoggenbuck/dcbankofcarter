@@ -14,11 +14,22 @@ def main():
 	s = c.fetchall()
 	c.close()
 	conn.close()
-	return render_template("news.html",s=s)
+	lg = False
+	try: 
+		if session['id'] != "": 
+			lg = True
+	except:	pass
+	return render_template("news.html",s=s,lg=lg)
 
 @app.route('/login',methods=["GET","POST"])
 def login():
-	if request.method=="GET": return render_template("login.html")
+	lg = False
+	try: 
+		if session['id'] != "": 
+			lg = True
+	except:	pass
+	error = ""
+	if request.method=="GET": return render_template("login.html",lg=lg,error=error)
 	elif request.method == "POST":
 		conn = sqlite3.connect("userinfo.db")
 		c = conn.cursor()
@@ -34,9 +45,16 @@ def login():
 		conn.close()
 		if login == True:
 			session['id'] = uid
-			return render_template("logincomplete.html")
+			lg = True
+			return render_template("logincomplete.html",lg=lg)
 		elif login == False:
-			return render_template("loginfailed.html")
+			lg = False
+			error = "Incorrect Email or Password"
+			return render_template("login.html",lg=lg,error=error)
+@app.route('/logout')
+def logout():
+   session.pop('id', None)
+   return render_template('logout.html')
 
 def create_user_id():
 	aconn = sqlite3.connect("userinfo.db")
@@ -60,8 +78,18 @@ def create_user_id():
 @app.route('/createanaccount',methods=["GET","POST"])
 def createanaccount():
 	if request.method=="GET":
-		return render_template('createaccount.html',error='')
+		lg = False
+		try: 
+			if session['id'] != "": 
+				lg = True
+		except:	pass
+		return render_template('createaccount.html',error='',lg=lg)
 	elif request.method=="POST":
+		lg = False
+		try: 
+			if session['id'] != "": 
+				lg = True
+		except:	pass
 		nid = create_user_id()
 		conn = sqlite3.connect("userinfo.db")
 		c = conn.cursor()
@@ -92,7 +120,6 @@ def createanaccount():
 		conn.commit()
 		c.close()
 		conn.close()
-		
 		return render_template('accountcreated.html')
 
 @app.route('/testdata')
