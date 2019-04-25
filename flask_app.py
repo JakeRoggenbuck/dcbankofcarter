@@ -117,6 +117,8 @@ def verifyid():
 	c = conn.cursor()
 	c.execute(s)
 	a = [i for i in c.fetchall()]
+	c.close()
+	conn.close()
 	if len(a) == 1:
 		return "VALID"
 	else:
