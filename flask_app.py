@@ -132,9 +132,27 @@ def testdata():
     conn.close()
     a = "\n".join([" ".join([str(j) for j in i]) for i in data])
     return a
+
+
 @app.route('/viewaccountinfo')
 def viewaccountinfo():
-	return render_template('viewcarteraccountinfo.html')
+	lg = False
+	try: 
+		if session['id'] != "": 
+			lg = True
+	except:	pass
+	conn = sqlite3.connect("userinfo.db")
+	c = conn.cursor()
+	c.execute('SELECT * FROM users where user_id = ' + str(session['id']))
+	data = c.fetchall()
+	for x in data:
+		email = x[1]
+		password = x[2]
+		balance = x[5]
+		id = x[0]
+	c.close()
+	conn.close()
+	return render_template('viewcarteraccountinfo.html',lg=lg,email=email,password=password,balance=balance,id=id)
 
 @app.route('/verifyid',methods=['POST'])
 def verifyid():
