@@ -122,16 +122,28 @@ def createanaccount():
 		conn.close()
 		return render_template('accountcreated.html')
 
-@app.route('/testdata')
-def testdata():
-    conn = sqlite3.connect("userinfo.db")
-    c = conn.cursor()
-    c.execute('SELECT * FROM users')
-    data = c.fetchall()
-    c.close()
-    conn.close()
-    a = "\n".join([" ".join([str(j) for j in i]) for i in data])
-    return a
+@app.route('/minecartercoin',methods=["GET","POST"])
+def minecartercoin():
+	lg = False
+	try: 
+		if session['id'] != "": 
+			lg = True
+	except:	pass
+	if lg == False:
+		return render_template("rrh.html")
+	if request.method == "GET":
+		conn = sqlite3.connect('userinfo.db')
+		c = conn.cursor()
+		c.execute('SELECT problem from problems order by problemid desc')
+		x = c.fetchall()
+		z = str(x[0])
+		z = z[:-3]
+		z = z[2:]
+		conn.close()
+		return render_template('mccg.html',z=z)
+	else:
+		return render_template('mccp.html')
+		
 
 
 @app.route('/viewaccountinfo')
