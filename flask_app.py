@@ -166,7 +166,7 @@ def verifyid():
 		s = "SELECT * FROM users WHERE user_id = ?"
 		conn = sqlite3.connect("userinfo.db")
 		c = conn.cursor()
-		c.execute(s)
+		c.execute(s,check_id)
 		a = [i for i in c.fetchall()]
 		c.close()
 		conn.close()
