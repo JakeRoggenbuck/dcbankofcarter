@@ -176,6 +176,7 @@ def verifyid():
 			return "INVALID"
 	else:
 		return "INVALID"
+	
 
 @app.route('/transaction',methods=['POST'])
 def transaction():
