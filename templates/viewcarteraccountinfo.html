@@ -34,6 +34,13 @@
    <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-style:normal' align = 'Left'>{{password}}</h2><br/>
    <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:26px;font-style:normal' align = 'Left'>Balance</h2><br/>
    <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-style:normal' align = 'Left'>{{balance}}</h2>
-   
+   <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:26px;font-style:normal' align = 'Left'>Solved Problems</h2>
+   <table>
+   {% for i in problems: %}
+   <tr>
+   <td>{{i[0]}}</td>
+   </tr>
+   {% endfor %}
+   </table>
   </body>
 </html>
