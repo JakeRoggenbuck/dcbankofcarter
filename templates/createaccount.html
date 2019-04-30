@@ -5,11 +5,16 @@
     <script data-require="bootstrap@4.1.3" data-semver="4.1.3" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
+	<style>
+	body {
+    background-color: #e3f2fd;;
+}
+</style>
   </head>
   <body>
   
  {% if lg == False: %}
-	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
   <a class="navbar-brand" href="/">Decentralized Centralized Bank of Cartercoin</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -22,8 +27,8 @@
     </div>
   </div>
 </nav>
-	{% else: %}
-	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+{% else: %}
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
   <a class="navbar-brand" href="/">Decentralized Centralized Bank of Cartercoin</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
