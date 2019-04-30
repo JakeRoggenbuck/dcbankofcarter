@@ -26,10 +26,14 @@
     </div>
     </div>
     </nav>
+   {% if tried == True: %}
+   <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:26px;font-style:normal;color:red'>Incorrect. Try again.</h2><br/>
+   {% endif %}
    <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:26px;font-style:normal' align = 'Left'>Solve this derivative for Cartercoin</h2><br/>
    <h2 style='font-family:Helvetica,Arial,sans-serif;font-size:30px;font-style:normal' align = 'Left'>{{z}}</h2><br/>
-   
-
-   
+   <form method='post' action='/minecartercoin'>
+   <input type='text' id='answer'/>
+   <input type='submit' value='Check'/>
+   </form>
   </body>
 </html>

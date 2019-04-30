@@ -140,9 +140,27 @@ def minecartercoin():
 		z = z[:-3]
 		z = z[2:]
 		conn.close()
-		return render_template('mccg.html',z=z)
+		return render_template('mccg.html',z=z,tried=False)
 	else:
-		return render_template('mccp.html')
+		conn = sqlite3.connect('userinfo.db')
+		c = conn.cursor()
+		c.execute('SELECT problem, solution from problems order by problemid desc')
+		x = c.fetchall()
+		z = str(x[0])
+		z = z[:-3]
+		z = z[2:]
+		y = str(x[1])
+		y = y[:-3]
+		y = y[2:]
+		print(request.form)
+		if y == request.form['answer']:
+			c.execute('SELECT balance FROM users WHERE user_id = ?',(session['id'],))
+			bal = c.fetchall()[0]
+			c.execute('UPDATE users SET balance = ? WHERE user_id = ?',(bal,session['id']))
+			conn.close()
+			return render_template('mccp.html')
+		else:
+			return render_template('mccg.html',z=z,tried=True)
 		
 
 
