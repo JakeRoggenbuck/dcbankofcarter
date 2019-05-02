@@ -139,28 +139,38 @@ def minecartercoin():
 		z = str(x[0])
 		z = z[:-3]
 		z = z[2:]
+		c.close()
 		conn.close()
-		return render_template('mccg.html',z=z,tried=False)
+		tried = False
+		return render_template('mccg.html',z=z,tried=tried)
 	else:
 		conn = sqlite3.connect('userinfo.db')
 		c = conn.cursor()
-		c.execute('SELECT problem, solution from problems order by problemid desc')
+		c.execute('SELECT solution from problems order by problemid desc')
 		x = c.fetchall()
 		z = str(x[0])
 		z = z[:-3]
 		z = z[2:]
-		y = str(x[1])
-		y = y[:-3]
-		y = y[2:]
-		print(request.form)
-		if y == request.form['answer']:
-			c.execute('SELECT balance FROM users WHERE user_id = ?',(session['id'],))
-			bal = c.fetchall()[0]
-			c.execute('UPDATE users SET balance = ? WHERE user_id = ?',(bal,session['id']))
-			conn.close()
-			return render_template('mccp.html')
-		else:
-			return render_template('mccg.html',z=z,tried=True)
+		sql = "select * from users orderby user_id desc"
+		if request.form['answer'] == z:
+			c.execute('SELECT balance from users where user_id = ' + str(session["id"]))
+			x = c.fetchall()
+			x = str(x[0])
+			x = x[:-2]
+			x = x[1:]
+			x = int(x)
+			x += 1
+			sql = 'UPDATE users SET balance = ' + str(x) + ' where user_id = ' + str(session["id"])
+			c.execute(sql)
+			print(sql)
+			print(x)
+			return render_template("mccp.html")
+		print(sql)
+		c.execute(sql)
+		c.close()
+		conn.close()
+		return render_template("rrmcc.html")
+		
 		
 
 
