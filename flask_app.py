@@ -193,9 +193,13 @@ def viewaccountinfo():
 		password = x[2]
 		balance = x[5]
 		id = x[0]
+	c.execute('SELECT problems.problem, users.Firstname, users.user_id FROM problems INNER JOIN users ON users.user_id = problems.first_solve')
+	a = c.fetchall()
+	a = [i for i in a if i[2] == id]
 	c.close()
 	conn.close()
-	return render_template('viewcarteraccountinfo.html',lg=lg,email=email,password=password,balance=balance,id=id)
+	print(a)
+	return render_template('viewcarteraccountinfo.html',lg=lg,email=email,password=password,balance=balance,id=id,problems=a)
 
 @app.route('/verifyid',methods=['POST'])
 def verifyid():
