@@ -151,7 +151,6 @@ def minecartercoin():
 		z = str(x[0])
 		z = z[:-3]
 		z = z[2:]
-		sql = "select * from users orderby user_id desc"
 		if request.form['answer'] == z:
 			c.execute('SELECT balance from users where user_id = ' + str(session["id"]))
 			x = c.fetchall()
@@ -162,11 +161,11 @@ def minecartercoin():
 			x += 1
 			sql = 'UPDATE users SET balance = ' + str(x) + ' where user_id = ' + str(session["id"])
 			c.execute(sql)
+			conn.commit()
+			conn.close()
 			print(sql)
 			print(x)
 			return render_template("mccp.html")
-		print(sql)
-		c.execute(sql)
 		c.close()
 		conn.close()
 		return render_template("rrmcc.html")
